@@ -1,2 +1,2 @@
 # A HABIT TRACKER APP 
-##### Using MERN Stack [MongoDB, Express, React, Node]
+#### Using MERN Stack [MongoDB, Express, React, Node]
