@@ -1,0 +1,30 @@
+GET http://localhost:5000/users
+
+###
+
+GET http://localhost:5000/user/63189eaa3eacf9d9276f5722
+
+###
+
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+  "name": "Fadiah Faradinah",
+  "email": "fadiah@gmail.com",
+  "phone_number": "0895611916094"
+}
+
+###
+
+PUT http://localhost:5000/user/63189eaa3eacf9d9276f5722
+Content-Type: application/json
+
+{
+  "name": "Suryani",
+  "email": "suryani@gmail.com",
+  "phone_number": "0895611916094"
+}
+
+####
+DELETE http://localhost:5000/user/63189eaa3eacf9d9276f5722
