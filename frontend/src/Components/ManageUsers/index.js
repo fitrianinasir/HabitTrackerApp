@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 
 function Users(props) {
   const navigate = useNavigate();
@@ -74,6 +77,71 @@ function Users(props) {
       ).then((move) => navigate(0))
     }).catch(err => console.log(err))
   }
+
+
+  const { SearchBar } = Search
+  const options = {
+    custom: true,
+    paginationSize: 4,
+    pageStartIndex: 1,
+    firstPageText: 'First',
+    prePageText: 'Back',
+    nextPageText: 'Next',
+    lastPageText: 'Last',
+    nextPageTitle: 'First page',
+    prePageTitle: 'Pre page',
+    firstPageTitle: 'Next page',
+    lastPageTitle: 'Last page',
+    showTotal: true,
+    totalSize: users.length
+  };
+
+  const columns = [
+    {
+      dataField: 'users.name',
+      text: 'Name',
+    },
+    {
+      dataField: 'users.email',
+      text: 'Email',
+    },
+    {
+      dataField: 'users.phone_number',
+      text: 'Phone Number',
+    },
+    {
+      dataField: 'Action',
+      text: 'Action',
+    },
+  ]
+
+  const contentTable = ({ paginationProps, paginationTableProps }) => (
+    <div>
+      <PaginationListStandalone { ...paginationProps } />
+      <ToolkitProvider
+        keyField="id"
+        columns={ columns }
+        data={ users }
+        search
+      >
+        {
+          toolkitprops => (
+            <div>
+              <SearchBar { ...toolkitprops.searchProps } />
+              <BootstrapTable
+                striped
+                hover
+                { ...toolkitprops.baseProps }
+                { ...paginationTableProps }
+              />
+            </div>
+          )
+        }
+      </ToolkitProvider>
+      <PaginationListStandalone { ...paginationProps } />
+    </div>
+  );
+
   return (
     <div className="container">
       <h4 className="text-danger">Manage Users</h4>
@@ -84,7 +152,14 @@ function Users(props) {
       >
         Add
       </button>
-      <table className="table table-success table-striped">
+      <PaginationProvider
+          pagination={
+            paginationFactory(options)
+          }
+        >
+          { contentTable }
+        </PaginationProvider>
+      {/* <table className="table table-success table-striped table-paginate">
         <thead>
           <tr>
             <td>No</td>
@@ -121,7 +196,7 @@ function Users(props) {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
 
       {/* CREATE NEW MODAL */}
       <div
