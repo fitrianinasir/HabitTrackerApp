@@ -17,6 +17,18 @@ Content-Type: application/json
 
 ###
 
+
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+  "name": "Fitriani Nasr",
+  "email": "fitriani@gmail.com",
+  "phone_number": "082347052535"
+}
+
+###
+
 PUT http://localhost:5000/user/63189eaa3eacf9d9276f5722
 Content-Type: application/json
 
@@ -27,4 +39,4 @@ Content-Type: application/json
 }
 
 ####
-DELETE http://localhost:5000/user/63189eaa3eacf9d9276f5722
+DELETE http://localhost:5000/user/6318a0e80e9847b9554eeeb5
