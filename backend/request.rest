@@ -40,3 +40,9 @@ Content-Type: application/json
 
 ####
 DELETE http://localhost:5000/user/6318a0e80e9847b9554eeeb5
+
+####
+POST http://localhost:5000/delete-users
+Content-Type: application/json
+
+["631c9502e4e4eb29817b6731", "631c9502e4e4eb29817b6733"]

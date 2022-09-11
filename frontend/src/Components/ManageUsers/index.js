@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory, { PaginationProvider, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, {Search} from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 
 function Users(props) {
   const navigate = useNavigate();
@@ -19,7 +16,7 @@ function Users(props) {
     name: "",
     email: "",
     phone_number: "",
-  })
+  });
 
   useEffect(() => {
     getUsers();
@@ -46,11 +43,15 @@ function Users(props) {
         .delete(`http://localhost:5000/user/${id}`)
         .then((res) => {
           if (result.isConfirmed) {
-            Swal.fire("Deleted!", "Your file has been deleted.", "success").then((move) => navigate(0))
+            Swal.fire(
+              "Deleted!",
+              "Your file has been deleted.",
+              "success"
+            ).then((move) => navigate(0));
           }
         })
         .catch((err) => console.log(err));
-    })
+    });
   };
 
   const submitForm = async (e) => {
@@ -58,90 +59,26 @@ function Users(props) {
     await axios
       .post("http://localhost:5000/user", userData)
       .then((res) => {
-        Swal.fire(
-          'Success!',
-          'Data submitted sucessfully',
-          'success'
-        ).then((move) => navigate(0))
+        Swal.fire("Success!", "Data submitted sucessfully", "success").then(
+          (move) => navigate(0)
+        );
       })
       .catch((err) => console.log(err));
   };
 
-  const submitEditForm = async(e) => {
-    e.preventDefault()
-    await axios.put(`http://localhost:5000/user/${editData._id}`, editData).then(res => {
-      Swal.fire(
-        'Success!',
-        'Data updated sucessfully',
-        'success'
-      ).then((move) => navigate(0))
-    }).catch(err => console.log(err))
-  }
-
-
-  const { SearchBar } = Search
-  const options = {
-    custom: true,
-    paginationSize: 4,
-    pageStartIndex: 1,
-    firstPageText: 'First',
-    prePageText: 'Back',
-    nextPageText: 'Next',
-    lastPageText: 'Last',
-    nextPageTitle: 'First page',
-    prePageTitle: 'Pre page',
-    firstPageTitle: 'Next page',
-    lastPageTitle: 'Last page',
-    showTotal: true,
-    totalSize: users.length
+  const submitEditForm = async (e) => {
+    e.preventDefault();
+    await axios
+      .put(`http://localhost:5000/user/${editData._id}`, editData)
+      .then((res) => {
+        Swal.fire("Success!", "Data updated sucessfully", "success").then(
+          (move) => navigate(0)
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
-  const columns = [
-    {
-      dataField: 'users.name',
-      text: 'Name',
-    },
-    {
-      dataField: 'users.email',
-      text: 'Email',
-    },
-    {
-      dataField: 'users.phone_number',
-      text: 'Phone Number',
-    },
-    {
-      dataField: 'Action',
-      text: 'Action',
-    },
-  ]
-
-  const contentTable = ({ paginationProps, paginationTableProps }) => (
-    <div>
-      <PaginationListStandalone { ...paginationProps } />
-      <ToolkitProvider
-        keyField="id"
-        columns={ columns }
-        data={ users }
-        search
-      >
-        {
-          toolkitprops => (
-            <div>
-              <SearchBar { ...toolkitprops.searchProps } />
-              <BootstrapTable
-                striped
-                hover
-                { ...toolkitprops.baseProps }
-                { ...paginationTableProps }
-              />
-            </div>
-          )
-        }
-      </ToolkitProvider>
-      <PaginationListStandalone { ...paginationProps } />
-    </div>
-  );
-
+  
   return (
     <div className="container">
       <h4 className="text-danger">Manage Users</h4>
@@ -152,14 +89,7 @@ function Users(props) {
       >
         Add
       </button>
-      <PaginationProvider
-          pagination={
-            paginationFactory(options)
-          }
-        >
-          { contentTable }
-        </PaginationProvider>
-      {/* <table className="table table-success table-striped table-paginate">
+      <table className="table table-success table-striped table-paginate">
         <thead>
           <tr>
             <td>No</td>
@@ -196,7 +126,7 @@ function Users(props) {
             </tr>
           ))}
         </tbody>
-      </table> */}
+      </table>
 
       {/* CREATE NEW MODAL */}
       <div
@@ -319,7 +249,9 @@ function Users(props) {
                   className="form-control"
                   id="name"
                   value={editData.name}
-                  onChange={(e) => setEditData({...editData, name:e.target.value})}
+                  onChange={(e) =>
+                    setEditData({ ...editData, name: e.target.value })
+                  }
                 />
               </div>
               <div className="mb-3">
@@ -331,7 +263,9 @@ function Users(props) {
                   className="form-control"
                   id="email"
                   value={editData.email}
-                  onChange={(e) => setEditData({...editData, email:e.target.value})}
+                  onChange={(e) =>
+                    setEditData({ ...editData, email: e.target.value })
+                  }
                 />
               </div>
               <div className="mb-3">
@@ -343,7 +277,9 @@ function Users(props) {
                   className="form-control"
                   id="phone_number"
                   value={editData.phone_number}
-                  onChange={(e) => setEditData({...editData, phone_number:e.target.value})}
+                  onChange={(e) =>
+                    setEditData({ ...editData, phone_number: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -355,7 +291,11 @@ function Users(props) {
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={submitEditForm}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={submitEditForm}
+              >
                 Save changes
               </button>
             </div>

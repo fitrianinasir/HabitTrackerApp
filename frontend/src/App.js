@@ -3,9 +3,8 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import ManageUsers from './Components/ManageUsers'
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-
+// import ManageUsers from './Components/ManageUsers'
+import ManageUsers from "./Components/ManageUsers/index2";
 function App() {
   return (
     <div className="App">
