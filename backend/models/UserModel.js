@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken"
 
 const User = mongoose.Schema({
   name:{
@@ -7,12 +8,15 @@ const User = mongoose.Schema({
   },
   email:{
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
-  phone_number:{
+  password:{
     type: String,
     required: true
   }
 })
 
+
 export default mongoose.model('Users', User)
+

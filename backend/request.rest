@@ -2,44 +2,55 @@ GET http://localhost:5000/users
 
 ###
 
-GET http://localhost:5000/user/63189eaa3eacf9d9276f5722
+GET http://localhost:5000/user/631dc8ee3fbf23253eed9347
 
 ###
 
-POST http://localhost:5000/user
+POST http://localhost:5000/register
 Content-Type: application/json
 
 {
   "name": "Fadiah Faradinah",
   "email": "fadiah@gmail.com",
-  "phone_number": "0895611916094"
+  "password": "12345678"
 }
 
 ###
 
 
-POST http://localhost:5000/user
+POST http://localhost:5000/register
 Content-Type: application/json
 
 {
   "name": "Fitriani Nasr",
   "email": "fitriani@gmail.com",
-  "phone_number": "082347052535"
+  "password": "12345678"
 }
 
 ###
+POST http://localhost:5000/login
+Content-Type: application/json
 
-PUT http://localhost:5000/user/63189eaa3eacf9d9276f5722
+{
+  "name": "Fadiah Faradinah",
+  "email": "fadiah@gmail.com",
+  "password": "999"
+}
+
+
+###
+
+PUT http://localhost:5000/user/631dc8ee3fbf23253eed9347
 Content-Type: application/json
 
 {
   "name": "Suryani",
-  "email": "suryani@gmail.com",
-  "phone_number": "0895611916094"
+  "email": "fadiah@gmail.com",
+  "password": "999"
 }
 
 ####
-DELETE http://localhost:5000/user/6318a0e80e9847b9554eeeb5
+DELETE http://localhost:5000/user/631dc8ee3fbf23253eed9347
 
 ####
 POST http://localhost:5000/delete-users
