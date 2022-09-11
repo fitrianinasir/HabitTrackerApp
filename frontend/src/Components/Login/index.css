@@ -1,0 +1,40 @@
+.login-img {
+  width: 10rem;
+  height: 15rem;
+  background-image: url('../../asset/picture.jpg');
+  background-size: cover;
+  border-radius: 5rem;
+  position: absolute;
+  top: 18%;
+  left: 35%;
+}
+
+.login-img-shadow {
+  width: 10rem;
+  height: 15rem;
+  background-image: url('../../asset/picture.jpg');
+  filter:sepia(80%);;
+  background-size: cover;
+  border-radius: 5rem;
+  position: absolute;
+  top: 8%;
+  left: 23%;
+}
+
+.login-body{
+  width: 100%;
+  margin-top: 25rem;
+  font-size: 5rem;
+  text-align: center;
+}
+
+.login-body button{
+  margin-top: -18rem;
+  width: 90%;
+  background-color: #17143d;
+}
+
+.login-body .login-caption{
+  margin-top: -10rem
+  
+}
