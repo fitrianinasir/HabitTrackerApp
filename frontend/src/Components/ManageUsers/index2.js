@@ -29,12 +29,7 @@ const ManageUsers = () => {
     {
       accessorKey: "email",
       header: "Email",
-    },
-    {
-      accessorKey: "phone_number",
-      header: "Phone Number",
-      size: 80,
-    },
+    }
   ];
 
   useEffect(() => {
@@ -52,7 +47,7 @@ const ManageUsers = () => {
 
   const handleCreateNewRow = async (values) => {
     await axios
-      .post("http://localhost:5000/user", values)
+      .post("http://localhost:5000/register", values)
       .then((res) => {
         Swal.fire("Success!", "Data submitted sucessfully", "success").then(
           (move) => getUsers()
@@ -217,6 +212,15 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 }
               />
             ))}
+            <TextField
+                key="password"
+                label="Password"
+                name="password"
+                type="password"
+                onChange={(e) =>
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }
+              />
           </Stack>
         </form>
       </DialogContent>
