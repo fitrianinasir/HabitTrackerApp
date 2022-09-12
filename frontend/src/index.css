@@ -2,7 +2,7 @@
 
 .font-pacifico{
   font-family: 'Open Sans', serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color:black
 }
 
@@ -12,4 +12,17 @@ body{
 
 .fontSize-10{
   font-size: 10px;
+}
+
+@media (min-width: 1000px) {
+  .font-pacifico{
+    font-size: 1.3rem;
+    margin-top: 3rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+  }
+
+  .app-title{
+    
+  }
 }

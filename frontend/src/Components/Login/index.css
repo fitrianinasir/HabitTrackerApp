@@ -1,7 +1,14 @@
+.img-container {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  top: 0;
+  left: 0;
+}
 .login-img {
   width: 10rem;
   height: 15rem;
-  background-image: url('../../asset/picture.jpg');
+  background-image: url("../../asset/picture.jpg");
   background-size: cover;
   border-radius: 5rem;
   position: absolute;
@@ -12,8 +19,8 @@
 .login-img-shadow {
   width: 10rem;
   height: 15rem;
-  background-image: url('../../asset/picture.jpg');
-  filter:sepia(80%);;
+  background-image: url("../../asset/picture.jpg");
+  filter: sepia(80%);
   background-size: cover;
   border-radius: 5rem;
   position: absolute;
@@ -21,20 +28,75 @@
   left: 23%;
 }
 
-.login-body{
-  width: 100%;
-  margin-top: 25rem;
+.login-body {
+  position: absolute;
+  width: 90%;
+  height: 50%;
   font-size: 5rem;
   text-align: center;
+  left: 50%;
+  top: 65%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
-.login-body button{
+.login-body button {
   margin-top: -18rem;
   width: 90%;
   background-color: #17143d;
 }
 
-.login-body .login-caption{
-  margin-top: -10rem
-  
+.login-body .login-caption {
+  margin-top: -10rem;
+}
+
+.login-body h6 {
+  font-size: 12px;
+}
+
+@media (min-width: 1000px) {
+  .login-img-shadow {
+    display: none;
+  }
+  .img-container {
+    width: 100%;
+    height: 100vh;
+    background-image: url("../../asset/background.png");
+    background-size: cover;
+    background-position: 0;
+  }
+  .login-img {
+    display: none;
+  }
+  .login-body {
+    /* POSITIONING VERTICALLY HORIZONTALLY CENTER */
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
+
+    position: absolute;
+    left: 75%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 25%;
+    height: 75vh;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+    justify-content: center;
+  }
+
+  .login-body h6 {
+    font-size: 12px;
+  }
+
+  .login-body .login-caption {
+    font-size: 10px;
+  }
+  .login-body input::placeholder {
+    font-size: 10px;
+  }
 }
