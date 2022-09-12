@@ -54,6 +54,24 @@
   font-size: 12px;
 }
 
+
+.login-body .author-caption{
+  font-size: 12px;
+  margin-top: -12px;
+}
+
+
+.login-body .register-button {
+  margin-top: -27rem;
+  width: 90%;
+  background-color: #17143d;
+}
+
+.login-body .register-caption {
+  margin-top: -15rem;
+  font-size: 12px;
+}
+
 @media (min-width: 1000px) {
   .login-img-shadow {
     display: none;
@@ -98,5 +116,21 @@
   }
   .login-body input::placeholder {
     font-size: 10px;
+  }
+
+  .login-body .register-button {
+    margin-top: -27rem;
+    width: 90%;
+    background-color: #17143d;
+  }
+
+  .login-body .register-caption {
+    margin-top: -15rem;
+    font-size: 10px;
+  }
+
+  .login-body .author-caption{
+    font-size: 9px;
+    margin-top: -12px;
   }
 }
