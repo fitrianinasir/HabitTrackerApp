@@ -15,8 +15,10 @@ import {
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from 'react-redux';
 
 const ManageUsers = () => {
+  const dispatch = useDispatch()
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState({});
   const [rowSelection, setRowSelection] = useState({});

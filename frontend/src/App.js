@@ -8,7 +8,7 @@ import ManageUsers from "./Components/ManageUsers";
 import Login from "./Components/Login/Login"
 import Register from "./Components/Login/Register";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <BrowserRouter>

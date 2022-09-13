@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+// import { registerUser } from "../../action/userAction";
 import "./index.css";
+import { useDispatch } from "react-redux";
 
 function Register(props) {
+  const dispatch = useDispatch()
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
+
+  const submitData = () => {};
+
   return (
     <div>
       <React.Fragment>
@@ -27,6 +34,7 @@ function Register(props) {
               variant="standard"
               sx={{ width: "90%" }}
               InputLabelProps={{ style: { fontSize: 12 } }}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
             />
             <TextField
               id="email"
@@ -35,6 +43,7 @@ function Register(props) {
               sx={{ width: "90%" }}
               style={{ marginTop: "-4rem" }}
               InputLabelProps={{ style: { fontSize: 12 } }}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
             <TextField
               id="password"
@@ -44,11 +53,13 @@ function Register(props) {
               sx={{ width: "90%" }}
               style={{ marginTop: "-8rem" }}
               InputLabelProps={{ style: { fontSize: 12 } }}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
             <Button
               variant="contained"
               size="medium"
               className="register-button"
+              onClick={() => submitData()}
             >
               Register
             </Button>
