@@ -16,12 +16,17 @@ import {
 import { Delete, Edit } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from 'react-redux';
+import { getListUser, register, deleteUser } from "../../action/userAction";
 
 const ManageUsers = () => {
   const dispatch = useDispatch()
+  const {
+    getUserList
+  } = useSelector((state) => state.UserReducer)
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+
   const columns = [
     {
       accessorKey: "name",
@@ -35,27 +40,11 @@ const ManageUsers = () => {
   ];
 
   useEffect(() => {
-    getUsers();
-  }, [rowSelection]);
-
-  const getUsers = async () => {
-    await axios
-      .get("http://localhost:5000/users")
-      .then((res) => {
-        setTableData(res.data);
-      })
-      .catch((err) => console.log(err));
-  };
+    dispatch(getListUser())
+  }, [dispatch, rowSelection]);
 
   const handleCreateNewRow = async (values) => {
-    await axios
-      .post("http://localhost:5000/register", values)
-      .then((res) => {
-        Swal.fire("Success!", "Data submitted sucessfully", "success").then(
-          (move) => getUsers()
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(register(values))
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
@@ -64,7 +53,7 @@ const ManageUsers = () => {
       .then((res) => {
         exitEditingMode();
         Swal.fire("Success!", "Data updated sucessfully", "success").then(
-          (move) => getUsers()
+          (move) =>  dispatch(getListUser())
         );
       })
       .catch((err) => console.log(err));
@@ -89,7 +78,7 @@ const ManageUsers = () => {
               "Deleted!",
               "Your data has been deleted.",
               "success"
-            ).then((move) => getUsers());
+            ).then((move) =>  dispatch(getListUser()));
           }
         })
         .catch((err) => console.log(err));
@@ -97,35 +86,14 @@ const ManageUsers = () => {
   }
 
   const handleDeleteRow = (row) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      await axios
-        .delete(`http://localhost:5000/user/${row.original._id}`)
-        .then((res) => {
-          if (result.isConfirmed) {
-            Swal.fire(
-              "Deleted!",
-              "Your file has been deleted.",
-              "success"
-            ).then((move) => getUsers());
-          }
-        })
-        .catch((err) => console.log(err));
-    });
+    dispatch(deleteUser(row.original._id))
   };
 
   return (
     <>
       <MaterialReactTable
         columns={columns}
-        data={tableData}
+        data={getUserList}
         editingMode="modal" //default
         enableColumnOrdering
         // enableEditing
