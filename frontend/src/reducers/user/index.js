@@ -1,4 +1,10 @@
-import { GET_LIST_USER, REGISTER, DELETE_USER } from "../../action/userAction";
+import {
+  GET_LIST_USER,
+  REGISTER,
+  DELETE_USER,
+  UPDATE_USER,
+  MASS_DELETE_USER,
+} from "../../action/userAction";
 
 const initialState = {
   getUserList: false,
@@ -7,9 +13,15 @@ const initialState = {
   createUser: false,
   createUserLoading: false,
   createUserError: false,
+  updateUser: false,
+  updateUserLoading: false,
+  updateUserError: false,
   deleteUser: false,
   deleteUserLoading: false,
   deleteUserError: false,
+  deleteMassUser: false,
+  deleteMassUserLoading: false,
+  deleteMassUserError: false,
 };
 
 const user = (state = initialState, action) => {
@@ -31,12 +43,28 @@ const user = (state = initialState, action) => {
         createUserError: action.payload.errorMessage,
       };
 
+    case UPDATE_USER:
+      return {
+        ...state,
+        updateUser: action.payload.data,
+        updateUserLoading: action.payload.loading,
+        updateUserError: action.payload.errorMessage,
+      };
+
     case DELETE_USER:
       return {
         ...state,
         deleteUser: action.payload.data,
         deleteUserLoading: action.payload.loading,
         deleteUserError: action.payload.errorMessage,
+      };
+
+    case MASS_DELETE_USER:
+      return {
+        ...state,
+        deleteMassUser: action.payload.data,
+        deleteMassUserLoading: action.payload.loading,
+        deleteMassUserError: action.payload.errorMessage,
       };
 
     default:

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import MaterialReactTable from "material-react-table";
 import {
   Box,
@@ -14,9 +13,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
-import Swal from "sweetalert2";
 import { useDispatch, useSelector } from 'react-redux';
-import { getListUser, register, deleteUser } from "../../action/userAction";
+import { getListUser, register, updateUser, deleteUser, massDeleteUser } from "../../action/userAction";
 
 const ManageUsers = () => {
   const dispatch = useDispatch()
@@ -48,41 +46,13 @@ const ManageUsers = () => {
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    await axios
-      .put(`http://localhost:5000/user/${row.original._id}`, {...values, password: row.original.password})
-      .then((res) => {
-        exitEditingMode();
-        Swal.fire("Success!", "Data updated sucessfully", "success").then(
-          (move) =>  dispatch(getListUser())
-        );
-      })
-      .catch((err) => console.log(err));
+    dispatch(updateUser(row.original._id,  {...values, password: row.original.password}))
+    exitEditingMode()
   };
 
   const handleMassDelete = () => {
     const IDs = Object.keys(rowSelection)
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      await axios
-        .post('http://localhost:5000/delete-users', IDs)
-        .then((res) => {
-          if (result.isConfirmed) {
-            Swal.fire(
-              "Deleted!",
-              "Your data has been deleted.",
-              "success"
-            ).then((move) =>  dispatch(getListUser()));
-          }
-        })
-        .catch((err) => console.log(err));
-    });
+    dispatch(massDeleteUser(IDs))
   }
 
   const handleDeleteRow = (row) => {
