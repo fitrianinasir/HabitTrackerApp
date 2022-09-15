@@ -40,12 +40,12 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:5000/user/631dd0c7c747c6fba33b2d7d
+PUT http://localhost:5000/user/6321f1d08f14dd68bcc3f2cc
 Content-Type: application/json
 
 {
   "name": "Suryani",
-  "email": "fadiah@gmail.com",
+  "email": "a@gmail.com",
   "password": "999"
 }
 

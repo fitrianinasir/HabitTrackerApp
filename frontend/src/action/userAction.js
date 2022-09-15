@@ -183,7 +183,7 @@ export const updateUser = (id, data) => {
               },
             });
 
-            // dispatch(getListUser());
+            dispatch(getListUser());
           }
         );
       })

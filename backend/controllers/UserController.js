@@ -55,7 +55,7 @@ export const login = async(req,res) => {
 }
 
 export const updateUser = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ _id: req.params.id  });
   if (!user) return res.status(400).json({ message: "User not found" });
 
   bcrypt.hash(req.body.password, 7, async (err, hash) => {
