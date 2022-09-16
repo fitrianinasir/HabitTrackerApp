@@ -1,12 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { login } from "../../action/userAction";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
+
+
 function Login(props) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const [user, setUser] = useState({email: "", password: ""})
+
+  const submitData = async() => {
+    dispatch(login(user, () =>{
+      navigate('/dashboard')
+    }))
+  }
   return (
     <div>
       <React.Fragment>
@@ -25,6 +39,7 @@ function Login(props) {
               variant="standard"
               sx={{ width: "90%" }}
               InputLabelProps={{ style: { fontSize: 14 } }}
+              onChange={(e) => setUser({...user, email: e.target.value})}
             />
             <TextField
               id="password"
@@ -34,8 +49,9 @@ function Login(props) {
               sx={{ width: "90%" }}
               style={{ marginTop: "-3rem" }}
               InputLabelProps={{ style: { fontSize: 14 } }}
+              onChange={(e) => setUser({...user, password: e.target.value})}
             />
-            <Button variant="contained" size="medium" className="login-button">
+            <Button variant="contained" size="medium" className="login-button" onClick={() => submitData()}>
               LOGIN
             </Button>
             <Typography

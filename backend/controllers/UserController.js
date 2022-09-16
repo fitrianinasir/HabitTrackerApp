@@ -21,7 +21,7 @@ export const getUserByID = async (req, res) => {
 
 export const register = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).json({ message: "User already exist" });
+  if (user) return res.status(422).json({ message: "User already exist" });
 
   const newUser = new User(req.body);
   // hashing password

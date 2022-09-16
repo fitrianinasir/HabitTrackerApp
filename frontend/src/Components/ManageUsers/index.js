@@ -42,7 +42,9 @@ const ManageUsers = () => {
   }, [dispatch, rowSelection]);
 
   const handleCreateNewRow = async (values) => {
-    dispatch(register(values))
+    dispatch(register(values, () => {
+      return true
+    }))
   };
 
   const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {

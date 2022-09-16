@@ -4,15 +4,24 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-// import { registerUser } from "../../action/userAction";
+import { register } from "../../action/userAction";
 import "./index.css";
 import { useDispatch } from "react-redux";
 
+import { useNavigate } from "react-router-dom";
+
 function Register(props) {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [user, setUser] = useState({ name: "", email: "", password: "" });
 
-  const submitData = () => {};
+
+
+  const submitData = async() => {
+    dispatch(register(user, () =>{
+      navigate('/login')
+    }))
+  };
 
   return (
     <div>

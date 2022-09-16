@@ -1,6 +1,7 @@
 import {
   GET_LIST_USER,
   REGISTER,
+  LOGIN,
   DELETE_USER,
   UPDATE_USER,
   MASS_DELETE_USER,
@@ -13,6 +14,9 @@ const initialState = {
   createUser: false,
   createUserLoading: false,
   createUserError: false,
+  loginUser: false,
+  loginUserLoading: false,
+  loginUserError: false,
   updateUser: false,
   updateUserLoading: false,
   updateUserError: false,
@@ -25,7 +29,6 @@ const initialState = {
 };
 
 const user = (state = initialState, action) => {
-  console.log("3. Successfully load reducers");
   switch (action.type) {
     case GET_LIST_USER:
       return {
@@ -41,6 +44,14 @@ const user = (state = initialState, action) => {
         createUser: action.payload.data,
         createUserLoading: action.payload.loading,
         createUserError: action.payload.errorMessage,
+      };
+
+    case LOGIN:
+      return {
+        ...state,
+        loginUser: action.payload.data,
+        loginUserLoading: action.payload.loading,
+        loginUserError: action.payload.errorMessage,
       };
 
     case UPDATE_USER:

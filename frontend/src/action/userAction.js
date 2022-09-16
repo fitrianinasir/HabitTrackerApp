@@ -50,7 +50,7 @@ export const getListUser = () => {
   };
 };
 
-export const register = (data) => {
+export const register = (data, callback) => {
   return (dispatch) => {
     // loading
     dispatch({
@@ -81,12 +81,68 @@ export const register = (data) => {
               },
             });
             dispatch(getListUser());
+            callback();
           }
         );
       })
       .catch((err) => {
+        console.log(err.message);
+        if (err.message === "Request failed with status code 422") {
+          Swal.fire("Failed!", "Your email already registered", "error").then(
+            (move) => {
+              dispatch({
+                type: REGISTER,
+                payload: {
+                  loading: false,
+                  data: false,
+                  errorMessage: err,
+                },
+              });
+            }
+          );
+        } else {
+          Swal.fire("Failed!", "Error connection", "error").then((move) => {
+            dispatch({
+              type: REGISTER,
+              payload: {
+                loading: false,
+                data: false,
+                errorMessage: err,
+              },
+            });
+          });
+        }
+      });
+  };
+};
+
+export const login = (data, callback) => {
+  return(dispatch) => {
+    // loading
+    dispatch({
+      type: LOGIN,
+      payload:{
+        loading: true,
+        data: false,
+        errorMessage: false
+      }
+    })
+
+    // getAPI
+    axios.post(`${BASE_URL}/login`, data).then((res) => {
+      dispatch({
+        type: LOGIN,
+        payload: {
+          loading: false,
+          data: res.data,
+          errorMessage: false,
+        },
+      });
+      callback()
+    }).catch(err => {
+      Swal.fire("Failed!", "Email or password is incorrect", "error").then((move) => {
         dispatch({
-          type: REGISTER,
+          type: LOGIN,
           payload: {
             loading: false,
             data: false,
@@ -94,8 +150,9 @@ export const register = (data) => {
           },
         });
       });
-  };
-};
+    })
+  }
+}
 
 export const deleteUser = (id) => {
   return (dispatch) => {
