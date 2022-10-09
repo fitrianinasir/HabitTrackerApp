@@ -9,6 +9,7 @@ import Login from "./Components/Login/Login"
 import Register from "./Components/Login/Register";
 import Dashboard from "./Components/Dashboard";
 import Boards from "./Components/TaskManager/Boards"
+import Board from './Components/TaskManager/Board'
 const App = () => {
   return (
     <div className="App">
@@ -19,6 +20,7 @@ const App = () => {
             <Route exact path="/register" element={<Register/>} />
             <Route exact path="/dashboard" element={<Dashboard/>} />
             <Route exact path="/boards" element={<Boards/>} />
+            <Route exact path="/board" element={<Board/>} />
           </Routes>
         </BrowserRouter>
     </div>

@@ -1,0 +1,5 @@
+.board_body{
+  background-image: url("../../../asset/board.jpg");
+  height: 100vh;
+  background-size: cover;
+}
