@@ -6,16 +6,13 @@ const Lane = mongoose.Schema({
     auto: true
   },
   currentPage:{
-    type: Number,
-    required: true
+    type: Number
   },
   title:{
-    type: String,
-    required: true,
+    type: String
   },
   label:{
-    type: String,
-    required: true
+    type: String
   },
   cards:[
     {

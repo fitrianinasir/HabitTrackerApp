@@ -11,7 +11,9 @@ import {
 
 import {
   getLanes,
-  createLane
+  createLane,
+  updateLane,
+  deleteLane
 } from "../controllers/LaneController.js"
 
 const router = express.Router();
@@ -25,5 +27,6 @@ router.post("/delete-users", massDeleteUser);
 
 router.get("/lanes", getLanes);
 router.post("/lane", createLane);
-
+router.put('/lane/:id', updateLane)
+router.delete("/lane/:id", deleteLane)
 export default router;

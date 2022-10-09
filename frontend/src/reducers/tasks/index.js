@@ -1,9 +1,12 @@
-import { LANES } from "../../action/taskAction";
+import { LANES, UPDATE_LANE } from "../../action/taskAction";
 
 const initialState = {
   getLaneList: false,
   getLanesLoading: false,
   getLanesError: false,
+  updateLaneList: false,
+  updateLanesLoading: false,
+  updateLanesError: false,
 };
 
 const lane = (state = initialState, action) => {
@@ -15,6 +18,13 @@ const lane = (state = initialState, action) => {
         getLanesLoading: action.payload.loading,
         getLanesError: action.payload.errorMessage,
       };
+
+    case UPDATE_LANE:return {
+      ...state,
+      updateLaneList: action.payload.data,
+      updateLanesLoading: action.payload.loading,
+      updateLanesError: action.payload.errorMessage,
+    };
 
     default:
       return state;
