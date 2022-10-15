@@ -19,23 +19,93 @@ export const createLane = async (req, res) => {
   }
 };
 
-export const updateLane = async(req, res) => {
-  try{
+export const updateLane = async (req, res) => {
+  try {
     const updated_lane = await Lane.updateOne(
-      {id: req.params.id},
-      {$set: req.body}
-    )
-    res.status(200).json(updated_lane)
-  }catch (error) {
-      res.status(400).json({ message: error.message });
-    }
-}
-
-export const deleteLane = async(req, res) => {
-  try{
-    const deleted_lane = await Lane.deleteOne({id: req.params.id})
-    res.status(200).json(deleted_lane)
-  }catch(error){
-    res.status(400).json({message:error.message})
+      { id: req.params.id },
+      { $set: req.body }
+    );
+    res.status(200).json(updated_lane);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
-}
+};
+
+export const deleteLane = async (req, res) => {
+  try {
+    const deleted_lane = await Lane.deleteOne({ id: req.params.id });
+    res.status(200).json(deleted_lane);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const addCard = async (req, res) => {
+  try {
+    let data = {
+      id: req.body.id,
+      title: typeof req.body.title === "string" ? req.body.title : "",
+      label: typeof req.body.label === "string" ? req.body.label : "",
+      description:
+        typeof req.body.description === "string" ? req.body.description : "",
+    };
+
+    const added_card = await Lane.updateOne(
+      { id: req.params.laneId },
+      { $push: { cards: data } }
+    );
+    res.status(200).json(added_card);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const updateCard = async (req, res) => {
+  try {
+    let body = req.body;
+    let find_card = await Lane.findOne({ id: req.params.laneId });
+    let data = find_card.cards.filter((data) => data.id === req.body.id)[0];
+
+    var objIndex = find_card.cards
+      .map(function (x) {
+        return x.id;
+      })
+      .indexOf(req.body.id);
+
+    let merged = {
+      id: req.body.id,
+      title: typeof body.title === "string" ? body.title : data.title,
+      label: typeof body.label === "string" ? body.label : data.label,
+      description:
+        typeof body.description === "string"
+          ? body.description
+          : data.description,
+    };
+
+    find_card.cards[objIndex] = merged;
+
+    const updating = await Lane.findOneAndUpdate(
+      { id: req.params.laneId },
+      {
+        $set: { cards: find_card.cards },
+      }
+    );
+    res.status(200).json(updating);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteCard = async (req, res) => {
+  try {
+    const deleted_card = await Lane.findOneAndUpdate(
+      { id: req.params.laneId },
+      {
+        $pull: { cards: { id: req.params.cardId } },
+      }
+    );
+    res.status(200).json(deleted_card);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};

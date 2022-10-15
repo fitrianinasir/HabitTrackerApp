@@ -10,7 +10,7 @@ Accept: application/json
   "title": "TO DO",
   "label": "20/70", 
   "cards": [
-     {
+          {
             "description": "Task1 to do",
             "label": "2017-12-01",
             "title": "Task1"
@@ -40,3 +40,29 @@ Accept: application/json
 { 
   "title": "TO DO"
 }
+
+
+### CARD
+POST http://localhost:5000/card/4c2618e0-4c3b-11ed-a59a-c1b2e8315f59
+Content-Type: application/json
+Accept: application/json
+
+{
+    "id": "cb48e9b0-4c3e-11ed-a825-51f711027b8d",
+    "title": "todo1",
+    "label": "",
+    "description": "todo1 card"
+}
+
+### PUT
+PUT http://localhost:5000/card/df212990-4c5f-11ed-a20d-d356b9f5cdfd
+Content-Type: application/json
+Accept: application/json
+
+{
+    "description": "1",
+    "id": "e16dbc30-4c60-11ed-b642-c79165cf7ab1"
+}
+
+### DELETE CARD
+DELETE http://localhost:5000/card/7e0fadf0-4c43-11ed-886f-79ee1a5d91d6/7a188320-4c43-11ed-886f-79ee1a5d91d6

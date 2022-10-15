@@ -13,7 +13,10 @@ import {
   getLanes,
   createLane,
   updateLane,
-  deleteLane
+  deleteLane,
+  addCard,
+  updateCard,
+  deleteCard
 } from "../controllers/LaneController.js"
 
 const router = express.Router();
@@ -29,4 +32,9 @@ router.get("/lanes", getLanes);
 router.post("/lane", createLane);
 router.put('/lane/:id', updateLane)
 router.delete("/lane/:id", deleteLane)
+
+
+router.post("/card/:laneId", addCard)
+router.put("/card/:laneId", updateCard)
+router.delete("/card/:cardId/:laneId", deleteCard)
 export default router;

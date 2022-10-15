@@ -62,7 +62,7 @@ export const createLane = (data) => {
     axios
       .post(`${BASE_URL}/lane`, data)
       .then((res) => {
-        return
+        return;
         // dispatch(getLanes());
       })
       .catch((err) => {
@@ -85,21 +85,20 @@ export const updateLane = (id, data) => {
 
     // getAPI
     axios
-    .put(`${BASE_URL}/lane/${id}`, data)
-    .then((res) => {
-      return
-      
-    })
-    .catch((err) => {
-      dispatch({
-        type: UPDATE_LANE,
-        payload: {
-          loading: false,
-          data: false,
-          errorMessage: err,
-        },
+      .put(`${BASE_URL}/lane/${id}`, data)
+      .then((res) => {
+        return;
+      })
+      .catch((err) => {
+        dispatch({
+          type: UPDATE_LANE,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: err,
+          },
+        });
       });
-    });
   };
 };
 
@@ -110,10 +109,53 @@ export const deleteLane = (id) => {
       .delete(`${BASE_URL}/lane/${id}`)
       .then((res) => {
         // dispatch(getLanes());
-        return
+        return;
       })
       .catch((err) => {
         console.log(err);
       });
   };
+};
+
+// CARD
+export const addCard = (laneId, card) => {
+  console.log(laneId, card);
+  return (dispatch) => {
+    axios
+      .post(`${BASE_URL}/card/${laneId}`, card)
+      .then((res) => {
+        console.log(res);
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const deleteCard = (cardId, laneId) => {
+  return async (dispatch) => {
+    await axios
+      .delete(`${BASE_URL}/card/${cardId}/${laneId}`)
+      .then((res) => {
+        console.log(res.data);
+        return;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
+export const updateCard = async (laneId, data) => {
+  // getAPI
+  await axios
+    .put(`${BASE_URL}/card/${laneId}`, data)
+    .then((res) => {
+      console.log(res.data);
+      return;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 };
