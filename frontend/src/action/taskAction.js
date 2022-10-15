@@ -47,7 +47,6 @@ export const getLanes = () => {
 };
 
 export const createLane = (data) => {
-  console.log(data);
   return (dispatch) => {
     // loading
     dispatch({
@@ -61,10 +60,10 @@ export const createLane = (data) => {
 
     // getAPI
     axios
-      .post(`${BASE_URL}/lane`, { title: data.title })
+      .post(`${BASE_URL}/lane`, data)
       .then((res) => {
-        console.log(res.data);
-        dispatch(getLanes());
+        return
+        // dispatch(getLanes());
       })
       .catch((err) => {
         console.log(err);
@@ -84,38 +83,23 @@ export const updateLane = (id, data) => {
       },
     });
 
-    console.log(id, data);
-
     // getAPI
-    // axios
-    // .put(`${BASE_URL}/lane/${id}`, data)
-    // .then((res) => {
-    //   console.log(res.data);
-    //   Swal.fire("Success!", "Data updated sucessfully", "success").then(
-    //     (move) => {
-    //       dispatch({
-    //         type: UPDATE_LANE,
-    //         payload: {
-    //           loading: false,
-    //           data: res.data,
-    //           errorMessage: false,
-    //         },
-    //       });
-
-    //       dispatch(getLanes());
-    //     }
-    //   );
-    // })
-    // .catch((err) => {
-    //   dispatch({
-    //     type: UPDATE_LANE,
-    //     payload: {
-    //       loading: false,
-    //       data: false,
-    //       errorMessage: err,
-    //     },
-    //   });
-    // });
+    axios
+    .put(`${BASE_URL}/lane/${id}`, data)
+    .then((res) => {
+      return
+      
+    })
+    .catch((err) => {
+      dispatch({
+        type: UPDATE_LANE,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: err,
+        },
+      });
+    });
   };
 };
 
@@ -125,7 +109,8 @@ export const deleteLane = (id) => {
     await axios
       .delete(`${BASE_URL}/lane/${id}`)
       .then((res) => {
-        dispatch(getLanes());
+        // dispatch(getLanes());
+        return
       })
       .catch((err) => {
         console.log(err);

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Board from "react-trello";
 import { useDispatch, useSelector } from "react-redux";
-import { getLanes, createLane, deleteLane } from "../../../action/taskAction";
+import { getLanes, createLane, deleteLane, updateLane } from "../../../action/taskAction";
 import "./index.css";
 
 function BoardDetail(props) {
@@ -34,7 +34,7 @@ function BoardDetail(props) {
           draggable
           onCardUpdate={function noRefCheck() {}}
           onLaneAdd={function noRefCheck(params) {dispatch(createLane(params))}}
-          onLaneUpdate={function noRefCheck() {}}
+          onLaneUpdate={function noRefCheck(laneId, data) {dispatch(updateLane(laneId, data))}}
           onDataChange={(newData) => dataChange(newData)}
           onLaneDelete={(laneId) => dispatch(deleteLane(laneId))}
         />

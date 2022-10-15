@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const Lane = mongoose.Schema({
   id: {
-    type: mongoose.Schema.ObjectId,
-    auto: true
+    type: String
   },
   currentPage:{
     type: Number
@@ -16,10 +15,7 @@ const Lane = mongoose.Schema({
   },
   cards:[
     {
-      id: {
-        type: mongoose.Schema.ObjectId,
-        auto: true
-      },
+      id: String,
       title: String,
       laneId: String,
       label: String, 
