@@ -123,11 +123,11 @@ export const cardDrag = async (req, res) => {
       destination.save();
       source.save();
     } else {
-      source.cards.splice(req.body.position, 0, source.cards[cardIndex]);
-
       if (cardIndex < req.body.position) {
+        source.cards.splice(req.body.position+1, 0, source.cards[cardIndex]);
         source.cards.splice(cardIndex, 1);
       } else {
+        source.cards.splice(req.body.position, 0, source.cards[cardIndex]);
         source.cards.splice(cardIndex + 1, 1);
       }
       source.save();

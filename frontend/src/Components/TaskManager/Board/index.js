@@ -17,16 +17,12 @@ function BoardDetail(props) {
   const dispatch = useDispatch();
   const { getLaneList } = useSelector((state) => state.TaskReducer);
   const [data, setData] = useState();
-  const [cardDragged, setCardDragger] = useState();
 
   useEffect(() => {
     dispatch(getLanes());
   }, [dispatch]);
 
-  const dataChange = () => {
-    // newData);
-    // console.log(data);
-  };
+
 
   return (
     <div>
