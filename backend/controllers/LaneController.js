@@ -1,3 +1,4 @@
+import { request } from "express";
 import Lane from "../models/LaneModel.js";
 
 export const getLanes = async (req, res) => {
@@ -105,6 +106,34 @@ export const deleteCard = async (req, res) => {
       }
     );
     res.status(200).json(deleted_card);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const cardDrag = async (req, res) => {
+  try {
+    let source = await Lane.findOne({ id: req.body.sourceLaneId });
+    let cardIndex = source.cards.findIndex((obj) => obj.id === req.body.cardId);
+    let destination = await Lane.findOne({ id: req.body.targetLaneId });
+
+    if (req.body.sourceLaneId != req.body.targetLaneId) {
+      destination.cards.splice(req.body.position, 0, source.cards[cardIndex]);
+      source.cards.splice(cardIndex, 1);
+      destination.save();
+      source.save();
+    } else {
+      source.cards.splice(req.body.position, 0, source.cards[cardIndex]);
+
+      if (cardIndex < req.body.position) {
+        source.cards.splice(cardIndex, 1);
+      } else {
+        source.cards.splice(cardIndex + 1, 1);
+      }
+      source.save();
+    }
+
+    res.status(200).json({ source: source, req: req.body, cardIndex });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

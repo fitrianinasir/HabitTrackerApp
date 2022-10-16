@@ -159,3 +159,16 @@ export const updateCard = async (laneId, data) => {
       console.log(err.message);
     });
 };
+
+
+export const dragCard = async(data) => {
+  await axios
+  .put(`${BASE_URL}/card`, data)
+  .then((res) => {
+    console.log(res.data);
+    return;
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}

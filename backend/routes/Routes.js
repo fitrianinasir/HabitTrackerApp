@@ -16,7 +16,8 @@ import {
   deleteLane,
   addCard,
   updateCard,
-  deleteCard
+  deleteCard,
+  cardDrag
 } from "../controllers/LaneController.js"
 
 const router = express.Router();
@@ -37,4 +38,5 @@ router.delete("/lane/:id", deleteLane)
 router.post("/card/:laneId", addCard)
 router.put("/card/:laneId", updateCard)
 router.delete("/card/:cardId/:laneId", deleteCard)
+router.put("/card", cardDrag)
 export default router;

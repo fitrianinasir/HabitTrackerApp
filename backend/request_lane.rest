@@ -66,3 +66,17 @@ Accept: application/json
 
 ### DELETE CARD
 DELETE http://localhost:5000/card/7e0fadf0-4c43-11ed-886f-79ee1a5d91d6/7a188320-4c43-11ed-886f-79ee1a5d91d6
+
+
+###
+
+PUT http://localhost:5000/card
+Content-Type: application/json
+Accept: application/json
+
+{
+    "cardId": "28a13a90-4d2f-11ed-9645-03bddf07ce3e",
+    "sourceLaneId": "df212990-4c5f-11ed-a20d-d356b9f5cdfd",
+    "targetLaneId": "035e00c0-4d2e-11ed-81bd-4d8126e3eb21",
+    "position": 1
+}
