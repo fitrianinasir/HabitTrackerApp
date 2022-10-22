@@ -14,6 +14,7 @@ import {
   createLane,
   updateLane,
   deleteLane,
+  dragLane,
   addCard,
   updateCard,
   deleteCard,
@@ -32,6 +33,7 @@ router.post("/delete-users", massDeleteUser);
 router.get("/lanes", getLanes);
 router.post("/lane", createLane);
 router.put('/lane/:id', updateLane)
+router.put('/lane', dragLane)
 router.delete("/lane/:id", deleteLane)
 
 

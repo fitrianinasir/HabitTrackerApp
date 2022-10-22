@@ -1,6 +1,18 @@
 GET http://localhost:5000/lanes
 
 ###
+
+### PUT
+PUT http://localhost:5000/lane
+Content-Type: application/json
+Accept: application/json
+
+{
+    "removedIndex": 0,
+    "addedIndex": 2
+}
+
+###
 POST http://localhost:5000/lane
 Content-Type: application/json
 Accept: application/json

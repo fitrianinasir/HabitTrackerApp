@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Board from "react-trello";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,6 +6,7 @@ import {
   createLane,
   deleteLane,
   updateLane,
+  dragLane,
   addCard,
   deleteCard,
   updateCard,
@@ -16,13 +17,10 @@ import "./index.css";
 function BoardDetail(props) {
   const dispatch = useDispatch();
   const { getLaneList } = useSelector((state) => state.TaskReducer);
-  const [data, setData] = useState();
-
+  // const [laneData, setLaneData] = useState(getLanes)
   useEffect(() => {
     dispatch(getLanes());
   }, [dispatch]);
-
-
 
   return (
     <div>
@@ -49,6 +47,10 @@ function BoardDetail(props) {
           onLaneUpdate={function noRefCheck(laneId, data) {
             dispatch(updateLane(laneId, data));
           }}
+          // onDataChange={(newData) => setLaneData(newData)}
+          handleLaneDragEnd={(removedIndex, addedIndex) =>
+            dragLane({ removedIndex, addedIndex })
+          }
           handleDragEnd={(cardId, sourceLaneId, targetLaneId, position) => {
             dragCard({
               cardId: cardId,
@@ -57,7 +59,6 @@ function BoardDetail(props) {
               position: position,
             });
           }}
-          onDataChange={(newData) => setData(newData)}
           onLaneDelete={(laneId) => dispatch(deleteLane(laneId))}
         />
       ) : (

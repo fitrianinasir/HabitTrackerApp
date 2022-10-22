@@ -117,6 +117,19 @@ export const deleteLane = (id) => {
   };
 };
 
+export const dragLane = async (data) => {
+  await axios
+    .put(`${BASE_URL}/lane`, data)
+    .then((res) => {
+      getLanes()
+      return;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};
+
+
 // CARD
 export const addCard = (laneId, card) => {
   console.log(laneId, card);
@@ -160,15 +173,14 @@ export const updateCard = async (laneId, data) => {
     });
 };
 
-
-export const dragCard = async(data) => {
+export const dragCard = async (data) => {
   await axios
-  .put(`${BASE_URL}/card`, data)
-  .then((res) => {
-    console.log(res.data);
-    return;
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
-}
+    .put(`${BASE_URL}/card`, data)
+    .then((res) => {
+      console.log(res.data);
+      return;
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+};

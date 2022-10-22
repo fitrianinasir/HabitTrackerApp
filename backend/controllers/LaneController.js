@@ -1,5 +1,6 @@
 import { request } from "express";
 import Lane from "../models/LaneModel.js";
+import mongoose from "mongoose";
 
 export const getLanes = async (req, res) => {
   try {
@@ -36,6 +37,40 @@ export const deleteLane = async (req, res) => {
   try {
     const deleted_lane = await Lane.deleteOne({ id: req.params.id });
     res.status(200).json(deleted_lane);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const dragLane = async (req, res) => {
+  try {
+    let lanes = await Lane.find();
+    let to = req.body.addedIndex;
+    let from = req.body.removedIndex;
+
+    function array_move(arr, old_index, new_index) {
+      if (new_index >= arr.length) {
+        var k = new_index - arr.length + 1;
+        while (k--) {
+          arr.push(undefined);
+        }
+      }
+      arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+      return arr;
+    }
+
+    let result = array_move(lanes, from, to);
+
+    Lane.remove({}, function (err) {
+      console.log
+    });
+
+    Lane.insertMany(result);
+
+    res.status(200).json({
+      lanes: result,
+      req: req.body
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -124,7 +159,7 @@ export const cardDrag = async (req, res) => {
       source.save();
     } else {
       if (cardIndex < req.body.position) {
-        source.cards.splice(req.body.position+1, 0, source.cards[cardIndex]);
+        source.cards.splice(req.body.position + 1, 0, source.cards[cardIndex]);
         source.cards.splice(cardIndex, 1);
       } else {
         source.cards.splice(req.body.position, 0, source.cards[cardIndex]);
