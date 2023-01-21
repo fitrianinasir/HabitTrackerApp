@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -45,10 +46,44 @@ function Boards(props) {
   }, [dispatch]);
 
   const submitBoard = () => {
-    setModal(false)
-    dispatch(createBoard(modalData))
-    
-  }
+    setModal(false);
+    dispatch(createBoard(modalData));
+  };
+
+  // fake data generator
+  const getItems = (count) =>
+    Array.from({ length: count }, (v, k) => k).map((k) => ({
+      id: `item-${k}`,
+      content: `item ${k}`,
+    }));
+
+  const grid = 8;
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "lightgrey",
+    display: "flex",
+    padding: grid,
+    overflow: "auto",
+  });
+
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    padding: grid * 2,
+    margin: `0 ${grid}px 0 0`,
+
+    // change background colour if dragging
+    background: isDragging ? "lightgreen" : "grey",
+
+    // styles we need to apply on draggables
+    ...draggableStyle,
+  });
+
+  const onDragEnd = (result) => {
+    console.log("onDragEnd: ", result);
+    if (!result.destination) {
+      return;
+    }
+  };
   return (
     <>
       <Stack direction="row" sx={style}>
@@ -98,7 +133,47 @@ function Boards(props) {
           </Button>
         </Box>
       </Modal>
-
+      <Box sx={{ flexGrow: 1 }}>
+        <h1>CALLED</h1>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="droppable" direction="horizontal">
+            {(provided, snapshot) => {
+              <div
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+                {...provided.droppableProps}
+              >
+                {getBoardsList
+                  ? getBoardsList.map((data, index) => {
+                      return (
+                        <Draggable
+                          key={data._id}
+                          draggable={data._id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                            >
+                              {data.title}
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })
+                  : ""}
+                {/* {provided.placeholder} */}
+              </div>;
+            }}
+          </Droppable>
+        </DragDropContext>
+      </Box>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           {getBoardsList

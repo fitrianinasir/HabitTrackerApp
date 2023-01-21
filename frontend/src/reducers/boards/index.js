@@ -1,6 +1,5 @@
 import{
-  BOARDS,
-  CREATE_BOARD
+  BOARDS
 } from "../../action/boardAction"
 
 
