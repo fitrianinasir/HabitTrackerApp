@@ -1,0 +1,11 @@
+GET http://localhost:5000/boards
+
+###
+POST http://localhost:5000/board
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Project BCASMS",
+  "description": "Project kebutuhan maintanace app BCASMS"
+}

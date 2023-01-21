@@ -1,75 +1,134 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
+import { Stack } from "@mui/system";
+import { Button, Modal, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getBoards, createBoard } from "../../../action/boardAction";
 
-function index(props) {
+const style = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "1rem",
+};
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "50%",
+  bgcolor: "background.paper",
+  border: "2px solid white",
+  boxShadow: 24,
+  p: 4,
+};
+
+const textFieldStyle = {
+  display: "block",
+  marginBottom: "1rem",
+  width: "100%",
+};
+
+function Boards(props) {
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState({ title: "", description: "" });
+  const dispatch = useDispatch();
+  const { getBoardsList } = useSelector((state) => state.BoardReducer);
+
+  useEffect(() => {
+    dispatch(getBoards());
+  }, [dispatch]);
+
+  const submitBoard = () => {
+    setModal(false)
+    dispatch(createBoard(modalData))
+    
+  }
   return (
-    <div>
-      <h2>WORKSPACES</h2>
+    <>
+      <Stack direction="row" sx={style}>
+        <h2>WORKSPACES</h2>
+        <Button
+          sx={{ width: "10rem", fontSize: "14px" }}
+          variant="outlined"
+          onClick={() => setModal(true)}
+        >
+          Add New
+        </Button>
+      </Stack>
+
+      <Modal
+        open={modal}
+        onClose={() => setModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <TextField
+            fullWidth
+            required
+            id="outlined-required"
+            label="Title"
+            sx={textFieldStyle}
+            onChange={(e) =>
+              setModalData({ ...modalData, title: e.target.value })
+            }
+          />
+          <TextField
+            fullWidth
+            required
+            id="outlined-required"
+            label="Description"
+            sx={textFieldStyle}
+            onChange={(e) =>
+              setModalData({ ...modalData, description: e.target.value })
+            }
+          />
+          <Button
+            sx={{ width: "100%" }}
+            variant="contained"
+            onClick={() => submitBoard()}
+          >
+            SUBMIT
+          </Button>
+        </Box>
+      </Modal>
+
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <Link to="/board" className="text-decoration-none">
-              <Card sx={{ minHeight: 100 }}>
-                <CardContent>
-                  <Typography
-                    sx={{ fontSize: 14 }}
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Project A
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
-          </Grid>
-          <Grid item xs={3}>
-            <Card sx={{ minHeight: 100 }}>
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Project B
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={3}>
-            <Card sx={{ minHeight: 100 }}>
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Projet C
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={3}>
-            <Card sx={{ minHeight: 100 }}>
-              <CardContent>
-                <Typography
-                  sx={{ fontSize: 14 }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  Project D
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+          {getBoardsList
+            ? getBoardsList.map((data) => {
+                return (
+                  <Grid item xs={3}>
+                    <Link to="/board" className="text-decoration-none">
+                      <Card sx={{ minHeight: 100 }}>
+                        <CardContent>
+                          <Typography
+                            sx={{ fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                          >
+                            {data.title}
+                          </Typography>
+                          <Typography variant="body2">
+                            {data.description}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  </Grid>
+                );
+              })
+            : ""}
         </Grid>
       </Box>
-    </div>
+    </>
   );
 }
 
-export default index;
+export default Boards;

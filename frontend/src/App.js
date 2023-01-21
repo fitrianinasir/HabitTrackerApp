@@ -7,7 +7,7 @@ import {
 import ManageUsers from "./Components/ManageUsers";
 import Login from "./Components/Login/Login"
 import Register from "./Components/Login/Register";
-import Dashboard from "./Components/Dashboard";
+import Dashboard from "./Components/Dashboard/Dashboard"
 import Boards from "./Components/TaskManager/Boards"
 import Board from './Components/TaskManager/Board'
 const App = () => {
@@ -18,9 +18,9 @@ const App = () => {
             <Route exact path="/users" element={<ManageUsers/>} />
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/register" element={<Register/>} />
-            <Route exact path="/dashboard" element={<Dashboard/>} />
             <Route exact path="/boards" element={<Boards/>} />
             <Route exact path="/board" element={<Board/>} />
+            <Route exact path="/dashboard" element={<Dashboard/>} />
           </Routes>
         </BrowserRouter>
     </div>
