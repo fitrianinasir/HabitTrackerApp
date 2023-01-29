@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Board from "react-trello";
+import queryString from 'query-string'
 import { useDispatch, useSelector } from "react-redux";
 import {
   getLanes,
@@ -33,7 +34,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function BoardDetail(props) {
   const dispatch = useDispatch();
-
+  const [parentBoardId, setParendBoardId] = useState('')
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -55,7 +56,10 @@ function BoardDetail(props) {
   const { getLaneList } = useSelector((state) => state.TaskReducer);
   // const [laneData, setLaneData] = useState(getLanes)
   useEffect(() => {
-    dispatch(getLanes());
+    let url = window.location.search
+    let parentId = url.slice(1, url.length)
+    setParendBoardId(parentId)
+    dispatch(getLanes(parentId));
   }, [dispatch]);
 
   return (
@@ -190,7 +194,11 @@ function BoardDetail(props) {
             updateCard(laneId, data);
           }}
           onLaneAdd={function noRefCheck(params) {
-            dispatch(createLane(params));
+            let create = {
+              ...params,
+              parentBoardId: parentBoardId
+            }
+            dispatch(createLane(create));
           }}
           onLaneUpdate={function noRefCheck(laneId, data) {
             dispatch(updateLane(laneId, data));

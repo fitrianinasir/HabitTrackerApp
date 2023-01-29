@@ -4,6 +4,9 @@ const Lane = mongoose.Schema({
   id: {
     type: String
   },
+  parentBoardId:{
+    type: String
+  },
   currentPage:{
     type: Number
   },

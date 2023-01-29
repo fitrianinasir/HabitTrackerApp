@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 export const getLanes = async (req, res) => {
   try {
-    const lanes = await Lane.find();
+    const lanes = await Lane.find({ parentBoardId: req.params.id });
     res.json(lanes);
   } catch (error) {
     res.status(500).json({ message: error.message });

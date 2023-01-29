@@ -32,7 +32,7 @@ router.put("/user/:id", updateUser);
 router.delete("/user/:id", deleteUser);
 router.post("/delete-users", massDeleteUser);
 
-router.get("/lanes", getLanes);
+router.get("/lanes/:id", getLanes);
 router.post("/lane", createLane);
 router.put('/lane/:id', updateLane)
 router.put('/lane', dragLane)

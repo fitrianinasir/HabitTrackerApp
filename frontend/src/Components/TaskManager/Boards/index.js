@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -59,11 +60,13 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 function Boards(props) {
   const [modal, setModal] = useState(false);
+  
   const [modalData, setModalData] = useState({ title: "", description: "" });
   const dispatch = useDispatch();
   const { getBoardsList } = useSelector((state) => state.BoardReducer);
 
   useEffect(() => {
+   
     dispatch(getBoards());
   }, [dispatch]);
 
@@ -165,7 +168,7 @@ function Boards(props) {
                             provided.draggableProps.style
                           )}
                         >
-                          <Link to="/board" className="text-decoration-none">
+                          <Link to={`/board/id?${data._id}`} className="text-decoration-none">
                             <Card sx={{ height: "8rem" }}>
                               <CardContent>
                                 <Typography

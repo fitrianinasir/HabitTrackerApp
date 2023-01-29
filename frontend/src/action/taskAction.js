@@ -5,7 +5,7 @@ export const LANES = "LANES";
 export const CREATE_LANE = "CREATE_LANE";
 export const UPDATE_LANE = "UPDATE_LANE";
 
-export const getLanes = () => {
+export const getLanes = (parentId) => {
   return (dispatch) => {
     // loading
     dispatch({
@@ -20,15 +20,16 @@ export const getLanes = () => {
     // getAPI
     axios({
       method: "GET",
-      url: `${BASE_URL}/lanes`,
+      url: `${BASE_URL}/lanes/${parentId}`,
       timeout: 10000,
     })
       .then((res) => {
+        console.log(res)
         dispatch({
           type: LANES,
           payload: {
             loading: false,
-            data: { lanes: res.data },
+            data: { lanes: res.data},
             errorMessage: false,
           },
         });
@@ -57,7 +58,7 @@ export const createLane = (data) => {
         errorMessage: false,
       },
     });
-
+    console.log('createLane', data)
     // getAPI
     axios
       .post(`${BASE_URL}/lane`, data)
