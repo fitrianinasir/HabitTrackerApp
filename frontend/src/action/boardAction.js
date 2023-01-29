@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 export const BOARDS = "BOARDS";
 export const CREATE_BOARD = "CREATE_BOARD";
-
+export const REORDER_BOARD = "REORDER_BOARD"
 export const getBoards = () => {
   return (dispatch) => {
     // loading
@@ -81,3 +81,31 @@ export const createBoard = (data) => {
       });
   };
 };
+
+export const reorderBoard = (data) => {
+  return(dispatch => {
+    dispatch({
+      type: REORDER_BOARD,
+      payload:{
+        loading: true,
+        data: false,
+        errorMessage: false
+      }
+    })
+
+    // API CALLED
+    axios.put(`${BASE_URL}/reorder`, {data: data}).then(res => {
+      console.log(res)
+      dispatch(getBoards());
+    }).catch(err => {
+      dispatch({
+        type: REORDER_BOARD,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: err.message
+        }
+      })
+    })
+  })
+}

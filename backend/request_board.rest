@@ -6,6 +6,37 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "title": "Project BCASMS",
-  "description": "Project kebutuhan maintanace app BCASMS"
+  "title": "Project 5",
+  "description": "Project 5"
+}
+
+###
+PUT http://localhost:5000/reorder
+Content-Type: application/json
+Accept: application/json
+
+{
+  "data": [
+    {
+        "_id": "63d613ae87f764debcf44fa7",
+        "title": "Project 2",
+        "description": "Project 2",
+        "order": 2,
+        "__v": 0
+    },
+    {
+        "_id": "63d61a23094c097158cee5a0",
+        "title": "Project 3",
+        "description": "Project 3",
+        "order": 3,
+        "__v": 0
+    },
+    {
+        "_id": "63d613a587f764debcf44fa5",
+        "title": "Project 1",
+        "description": "Project 1",
+        "order": 1,
+        "__v": 0
+    }
+]
 }

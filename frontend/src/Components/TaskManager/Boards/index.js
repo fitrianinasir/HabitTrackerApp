@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 import { Button, Modal, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getBoards, createBoard } from "../../../action/boardAction";
+import { getBoards, createBoard, reorderBoard } from "../../../action/boardAction";
 
 const style = {
   display: "flex",
@@ -35,6 +35,28 @@ const textFieldStyle = {
   width: "100%",
 };
 
+const getListStyle = (isDraggingOver, isEmpty) => ({
+  display: "flex",
+  padding: 5,
+  overflow: "auto",
+  minHeight: isEmpty ? "45px" : "NaN",
+});
+
+const grid = 5;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: "none",
+  padding: grid * 2,
+  margin: `0 ${grid}px 0 0`,
+  width: "100%",
+  // change background colour if dragging
+  // background: isDragging ? "lightgreen" : "grey",
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
 function Boards(props) {
   const [modal, setModal] = useState(false);
   const [modalData, setModalData] = useState({ title: "", description: "" });
@@ -50,40 +72,23 @@ function Boards(props) {
     dispatch(createBoard(modalData));
   };
 
-  // fake data generator
-  const getItems = (count) =>
-    Array.from({ length: count }, (v, k) => k).map((k) => ({
-      id: `item-${k}`,
-      content: `item ${k}`,
-    }));
 
-  const grid = 8;
-  const getListStyle = (isDraggingOver) => ({
-    background: isDraggingOver ? "lightblue" : "lightgrey",
-    display: "flex",
-    padding: grid,
-    overflow: "auto",
-  });
-
-  const getItemStyle = (isDragging, draggableStyle) => ({
-    // some basic styles to make the items look a bit nicer
-    userSelect: "none",
-    padding: grid * 2,
-    margin: `0 ${grid}px 0 0`,
-
-    // change background colour if dragging
-    background: isDragging ? "lightgreen" : "grey",
-
-    // styles we need to apply on draggables
-    ...draggableStyle,
-  });
+  // function to reorder the items
+  const reorder = (startIndex, endIndex) => {
+    const [removed] = getBoardsList.splice(startIndex,1)
+    getBoardsList.splice(endIndex,0,removed)
+    console.log(getBoardsList)
+    dispatch(reorderBoard(getBoardsList))
+  }
 
   const onDragEnd = (result) => {
-    console.log("onDragEnd: ", result);
-    if (!result.destination) {
-      return;
-    }
+    console.log(result)
+    reorder(result.source.index, result.destination.index)
   };
+
+
+
+
   return (
     <>
       <Stack direction="row" sx={style}>
@@ -133,75 +138,64 @@ function Boards(props) {
           </Button>
         </Box>
       </Modal>
-      <Box sx={{ flexGrow: 1 }}>
-        <h1>CALLED</h1>
+
+      {getBoardsList ? (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable" direction="horizontal">
-            {(provided, snapshot) => {
+            {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
-                {...provided.droppableProps}
               >
-                {getBoardsList
-                  ? getBoardsList.map((data, index) => {
-                      return (
-                        <Draggable
-                          key={data._id}
-                          draggable={data._id}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                              )}
-                            >
-                              {data.title}
-                            </div>
+                  <Grid container spacing={2}>
+                {getBoardsList.map((data, index) => (
+                  <Grid item xs={3}>
+                    <Draggable
+                      key={data._id}
+                      draggableId={data._id}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
                           )}
-                        </Draggable>
-                      );
-                    })
-                  : ""}
-                {/* {provided.placeholder} */}
-              </div>;
-            }}
+                        >
+                          <Link to="/board" className="text-decoration-none">
+                            <Card sx={{ height: "8rem" }}>
+                              <CardContent>
+                                <Typography
+                                  sx={{ fontSize: 14 }}
+                                  color="text.secondary"
+                                  gutterBottom
+                                >
+                                  {data.title}
+                                </Typography>
+                                <Typography variant="body2">
+                                  {data.description}
+                                </Typography>
+                              </CardContent>
+                            </Card>
+                          </Link>
+                        </div>
+                      )}
+                    </Draggable>
+                  </Grid>
+                ))}
+                {provided.placeholder}
+                </Grid>
+              </div>
+            
+            )}
           </Droppable>
         </DragDropContext>
-      </Box>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          {getBoardsList
-            ? getBoardsList.map((data) => {
-                return (
-                  <Grid item xs={3}>
-                    <Link to="/board" className="text-decoration-none">
-                      <Card sx={{ minHeight: 100 }}>
-                        <CardContent>
-                          <Typography
-                            sx={{ fontSize: 14 }}
-                            color="text.secondary"
-                            gutterBottom
-                          >
-                            {data.title}
-                          </Typography>
-                          <Typography variant="body2">
-                            {data.description}
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  </Grid>
-                );
-              })
-            : ""}
-        </Grid>
-      </Box>
+      ) : (
+        ""
+      )}
     </>
   );
 }
