@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { Clear } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -10,7 +9,12 @@ import { Link } from "react-router-dom";
 import { Stack } from "@mui/system";
 import { Button, Modal, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getBoards, createBoard, reorderBoard } from "../../../action/boardAction";
+import {
+  getBoards,
+  createBoard,
+  // reorderBoard,
+  deleteBoard,
+} from "../../../action/boardAction";
 
 const style = {
   display: "flex",
@@ -36,38 +40,19 @@ const textFieldStyle = {
   width: "100%",
 };
 
-const getListStyle = (isDraggingOver, isEmpty) => ({
-  display: "flex",
-  padding: 5,
-  overflow: "auto",
-  minHeight: isEmpty ? "45px" : "NaN",
-});
-
-const grid = 5;
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 ${grid}px 0 0`,
-  width: "100%",
-  // change background colour if dragging
-  // background: isDragging ? "lightgreen" : "grey",
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
 function Boards(props) {
   const [modal, setModal] = useState(false);
-  
+
   const [modalData, setModalData] = useState({ title: "", description: "" });
   const dispatch = useDispatch();
   const { getBoardsList } = useSelector((state) => state.BoardReducer);
 
   useEffect(() => {
-   
     dispatch(getBoards());
+    // window.oncontextmenu = (e) => {
+    //   e.preventDefault()
+    //   console.log('right clicked')
+    // }
   }, [dispatch]);
 
   const submitBoard = () => {
@@ -76,21 +61,10 @@ function Boards(props) {
   };
 
 
-  // function to reorder the items
-  const reorder = (startIndex, endIndex) => {
-    const [removed] = getBoardsList.splice(startIndex,1)
-    getBoardsList.splice(endIndex,0,removed)
-    console.log(getBoardsList)
-    dispatch(reorderBoard(getBoardsList))
-  }
 
-  const onDragEnd = (result) => {
-    console.log(result)
-    reorder(result.source.index, result.destination.index)
+  const deleteCard = (id) => {
+    dispatch(deleteBoard(id));
   };
-
-
-
 
   return (
     <>
@@ -143,59 +117,51 @@ function Boards(props) {
       </Modal>
 
       {getBoardsList ? (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable" direction="horizontal">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                  <Grid container spacing={2}>
-                {getBoardsList.map((data, index) => (
-                  <Grid item xs={3}>
-                    <Draggable
-                      key={data._id}
-                      draggableId={data._id}
-                      index={index}
+        <Grid container spacing={4}>
+          {getBoardsList.map((data, index) => (
+            <Grid item>
+              <Card sx={{ height: "8rem", width: "15rem" }}>
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      justifyItems: "center",
+                    }}
+                  >
+                    <Link
+                      to={`/board/id?${data._id}`}
+                      className="text-decoration-none"
                     >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          <Link to={`/board/id?${data._id}`} className="text-decoration-none">
-                            <Card sx={{ height: "8rem" }}>
-                              <CardContent>
-                                <Typography
-                                  sx={{ fontSize: 14 }}
-                                  color="text.secondary"
-                                  gutterBottom
-                                >
-                                  {data.title}
-                                </Typography>
-                                <Typography variant="body2">
-                                  {data.description}
-                                </Typography>
-                              </CardContent>
-                            </Card>
-                          </Link>
-                        </div>
-                      )}
-                    </Draggable>
-                  </Grid>
-                ))}
-                {provided.placeholder}
-                </Grid>
-              </div>
-            
-            )}
-          </Droppable>
-        </DragDropContext>
+                      <Typography
+                        sx={{
+                          fontSize: 14,
+                          display: "block",
+                          justifyItems: "center",
+                          cursor: "pointer",
+                        }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        {data.title}
+                      </Typography>
+                    </Link>
+                    <Clear
+                      onClick={() => deleteCard(data._id)}
+                      sx={{
+                        color: "black",
+                        fontSize: "10px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </Box>
+                  <Typography variant="body2">{data.description}</Typography>
+                </CardContent>
+              </Card>
+              
+            </Grid>
+          ))}
+        </Grid>
       ) : (
         ""
       )}

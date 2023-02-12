@@ -21,7 +21,7 @@ import {
   cardDrag
 } from "../controllers/LaneController.js"
 
-import { createBoard, getBoard, reorderBoard } from "../controllers/BoardController.js";
+import { createBoard, getBoard, reorderBoard, deleteBorder } from "../controllers/BoardController.js";
 
 const router = express.Router();
 router.get("/users", getUsers);
@@ -47,4 +47,5 @@ router.put("/card", cardDrag)
 router.get("/boards", getBoard)
 router.post("/board", createBoard)
 router.put("/reorder", reorderBoard)
+router.delete("/board/:id",deleteBorder)
 export default router;

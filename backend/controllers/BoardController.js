@@ -1,5 +1,6 @@
 import { request } from "express";
 import Board from "../models/BoardModel.js";
+import Lane from "../models/LaneModel.js";
 import mongoose from "mongoose";
 
 export const createBoard = async (req, res) => {
@@ -30,3 +31,18 @@ export const reorderBoard = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const deleteBorder = async(req,res) => {
+  try{
+    const delete_board = await Board.deleteOne({_id: req.params.id})
+    const check_lane = await Lane.findOne({parentBoardId: req.params.id})
+
+    if(check_lane){
+      await Lane.deleteMany({parentBoardId: req.params.id})
+    }
+
+    res.status(200).json({message: delete_board})
+  }catch(error){
+    res.status(500).json({message: error.message})
+  }
+}

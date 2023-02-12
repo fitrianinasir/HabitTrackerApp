@@ -1,10 +1,10 @@
 import axios from "axios";
 import { BASE_URL } from "../BASE_URL";
 import Swal from "sweetalert2";
-
 export const BOARDS = "BOARDS";
 export const CREATE_BOARD = "CREATE_BOARD";
 export const REORDER_BOARD = "REORDER_BOARD"
+export const DELETE_BOARD = "DELETE_BOARD"
 export const getBoards = () => {
   return (dispatch) => {
     // loading
@@ -108,4 +108,31 @@ export const reorderBoard = (data) => {
       })
     })
   })
+}
+
+export const deleteBoard = (id) =>{
+ return(dispatch=> {
+  dispatch({
+    type:DELETE_BOARD,
+    payload:{
+      data:false,
+      loading: true,
+      errorMessage: false
+    }
+  })
+
+  axios.delete(`${BASE_URL}/board/${id}`).then(res =>{
+    console.log(res)
+    dispatch(getBoards())
+  }).catch(err => {
+    dispatch({
+      type:DELETE_BOARD,
+      payload:{
+        loading:false,
+        data:false,
+        errorMessage:err.message
+      }
+    })
+  })
+ })
 }
